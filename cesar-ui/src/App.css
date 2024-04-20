@@ -1,0 +1,10 @@
+.App {
+  background-color: rgb(238, 237, 237);
+}
+
+.AppLogin{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Налаштування висоти на весь екран */
+}
