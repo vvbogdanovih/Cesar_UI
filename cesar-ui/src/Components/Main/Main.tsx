@@ -1,7 +1,7 @@
 import './Main.css'
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import Header from './Header/Header';
+import { useNavigate } from 'react-router-dom';
 
 
 const isAuth = () => {
@@ -20,8 +20,8 @@ const Main = () => {
   },[]);
   
   return(
-    <div className="">      
-      aaaa
+    <div className="Main">      
+      <Header/>
     </div>
   );
 }

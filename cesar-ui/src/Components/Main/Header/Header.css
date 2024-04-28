@@ -1,0 +1,36 @@
+.header-log-out-buuton {
+  font-size: 17px;
+  margin-top: 0;
+  margin-right: 2%;
+  height: 50px;
+  width: 180px;
+
+  text-decoration: none;
+  display: inline-block;
+  color: white;
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-image: linear-gradient(
+    to right,
+    #ff436c 0%,
+    #4830f0 51%,
+    #97cf73 100%
+  );
+  background-size: 200% auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
+}
+
+.header-log-out-buuton:hover {
+  background-position: right center;
+}
+
+.header {
+  background-color: #484848;
+  height: 80px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

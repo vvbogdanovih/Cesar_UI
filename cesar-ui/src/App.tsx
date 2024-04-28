@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="">
+    <div className="App-clear">
       <BrowserRouter>
         <Routes>
           <Route
@@ -34,7 +34,7 @@ function App() {
 
           <Route
             element={
-              <div className="">
+              <div className="App-clear">
                 <Main />
               </div>
             }
