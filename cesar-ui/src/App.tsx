@@ -1,31 +1,47 @@
-import React from 'react';
-import Login from './Components/Login/Login';
-import Register from './Components/Register/Register';
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from "react";
+import Login from "./Components/Login/Login";
+import Register from "./Components/Register/Register";
+import Main from "./Components/Main/Main";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-
   return (
-    <div className='App'>
+    <div className="">
       <BrowserRouter>
-      <Routes>
-        
-        <Route 
-          element={<div className='AppLogin'><Login name={"Jusepe"} phone={4654}/></div>}
-          path="/logination"/>
+        <Routes>
+          <Route
+            element={
+              <div className="App">
+                <div className="AppLogin">
+                  <Login />
+                </div>
+              </div>
+            }
+            path="/logination"
+          />
 
-        <Route 
-          element={<div className='AppLogin'><Register name={"Jusepe"} phone={4654}/></div>}
-          path="/registration"/>
-        
-      </Routes>
+          <Route
+            element={
+              <div className="App">
+                <div className="AppRegister">
+                  <Register />
+                </div>
+              </div>
+            }
+            path="/registration"
+          />
 
+          <Route
+            element={
+              <div className="">
+                <Main />
+              </div>
+            }
+            path="/main"
+          />
+        </Routes>
       </BrowserRouter>
-      
-        
-        
-      
     </div>
   );
 }
