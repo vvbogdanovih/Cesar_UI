@@ -28,9 +28,17 @@
 }
 
 .header {
+  width: 100%;
   background-color: #484848;
   height: 80px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.header-text {
+  flex-grow: 1;
+  text-align: center;
+  color: white;
+  font-family: "Montserrat", sans-serif;
 }

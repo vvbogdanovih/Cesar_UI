@@ -1,16 +1,21 @@
-import './Header.css'
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import "./Header.css";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-
-const Header = () => {  
-  
-  return(
-    <div className="header">      
-      <button className="header-log-out-buuton">Log Out</button>
+const Header = () => {
+  const navigate = useNavigate();
+  const LogOut = () => {
+    localStorage.clear();
+    navigate("/logination");
+  };
+  return (
+    <div className="header">
+      <h1 className="header-text">Cesar Banchmark</h1>
+      <button className="header-log-out-buuton" onClick={LogOut}>
+        Log Out
+      </button>
     </div>
   );
-}
+};
 
 export default Header;
