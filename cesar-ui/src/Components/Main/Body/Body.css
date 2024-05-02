@@ -32,6 +32,8 @@
 
 .input-style {
   height: 21px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
 }
 
 .chart {
@@ -57,8 +59,8 @@
 }
 
 .test-button {
-  width: 175px;
-
+  width: 100%;
+    min-width: 195px;
   text-decoration: none;
   display: inline-block;
   color: white;

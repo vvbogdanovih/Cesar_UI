@@ -2,6 +2,7 @@ import "./login.css";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../../ApiAdres";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -12,7 +13,7 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "https://localhost:7055/api/Authenticate/login",
+        `${api}/api/Authenticate/login`,
         { username, password }
       );
       localStorage.setItem("Token", response.data.token);
