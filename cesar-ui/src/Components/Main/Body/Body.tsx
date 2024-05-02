@@ -40,9 +40,9 @@ const Body = () => {
   const [cpuRoute, setCPURoute] = useState("");
   const [gpuRoute, setGPURoute] = useState("");
   const [testMethod, setTestMethod] = useState("option1");
-  const [matrixAStarSize, setMatrixAStarSize] = useState("10");
-  const [matrixAEndSize, setMatrixAEndSize] = useState("50");
-  const [testStep, setTestStep] = useState("10");
+  const [StartSize, setMatrixAStarSize] = useState(10);
+  const [EndSize, setMatrixAEndSize] = useState(50);
+  const [Step, setTestStep] = useState(10);
 
   // useEffect для завантаження даних після рендерингу компонента
   useEffect(() => {
@@ -53,6 +53,7 @@ const Body = () => {
         );
         setCPURoutes(cpuResponse.data);
         setCPURoute(cpuResponse.data[0].adres);
+        console.log(cpuRoute);
         const gpuResponse = await axios.get<GPURote[]>(
           `${api}/Route/GetGPURoutes`
         );
@@ -68,12 +69,18 @@ const Body = () => {
   }, []);
 
   const handleButtoun = async () => {
-    console.log(testMethod);
+    
     switch (testMethod) {
         case "option1":
             const response1 = await axios.post(
                 `${api}/Benchmark/Sum`,
-                { matrixAStarSize, matrixAEndSize, testStep, gpuRoute, cpuRoute}
+                { StartSize, EndSize, Step, gpuRoute, cpuRoute},
+                {
+                    headers: {
+                        'Content-Type': 'application/json', // Вкажіть тип вмісту
+                    },
+                    timeout: 9000000
+                },
               );
               console.log(response1.data);
               setBenchmarkResult(response1.data);
@@ -81,14 +88,14 @@ const Body = () => {
         case "option2":
             const response2 = await axios.post(
                 `${api}/Benchmark/Mult`,
-                { matrixAStarSize, matrixAEndSize, testStep, gpuRoute, cpuRoute}
+                { StartSize, EndSize, Step, gpuRoute, cpuRoute}
               );
               setBenchmarkResult(response2.data); 
           break;
         case "option3":
             const response3 = await axios.post(
                 `${api}/Benchmark/Sing`,
-                { matrixAStarSize, matrixAEndSize, testStep, gpuRoute, cpuRoute}
+                { StartSize, EndSize, Step, gpuRoute, cpuRoute}
               );
               setBenchmarkResult(response3.data); 
           break;
@@ -110,7 +117,7 @@ const Body = () => {
               name="optionsCPU"
               onChange={(e) => {
                 const foundRoute = cpuRoutes.find(
-                  (route) => route.cpu === e.target.value
+                  (route) => route.cpu=== e.target.value
                 );
                 const adres = foundRoute ? foundRoute.adres : "none";
                 setCPURoute(adres);
@@ -133,7 +140,7 @@ const Body = () => {
                   (route) => route.gpu === e.target.value
                 );
                 const adres = foundRoute ? foundRoute.adres : "none";
-                setCPURoute(adres);
+                setGPURoute(adres);
               }}
             >
               {gpuRoutes.map((options: GPURote, index) => (
@@ -161,8 +168,8 @@ const Body = () => {
             <input
               className="input-style"
               type="text"
-              value={matrixAStarSize}
-              onChange={(e) => setMatrixAStarSize(e.target.value)}
+              value={StartSize}
+              onChange={(e) => setMatrixAStarSize(Number(e.target.value))}
             />
           </div>
 
@@ -171,8 +178,8 @@ const Body = () => {
             <input
               className="input-style"
               type="text"
-              value={matrixAEndSize}
-              onChange={(e) => setMatrixAEndSize(e.target.value)}
+              value={EndSize}
+              onChange={(e) => setMatrixAEndSize(Number(e.target.value))}
             />
           </div>
 
@@ -181,8 +188,8 @@ const Body = () => {
             <input
               className="input-style"
               type="text"
-              value={testStep}
-              onChange={(e) => setTestStep(e.target.value)}
+              value={Step}
+              onChange={(e) => setTestStep(Number(e.target.value))}
             />
           </div>
 
@@ -198,24 +205,24 @@ const Body = () => {
             <XAxis dataKey="size" padding={{ left: 30, right: 30 }} />
             <YAxis />
             <Tooltip />
-            <Legend />
+            <Legend values="elapsedTimeCPU"/>
             <Line
               type="monotone"
               dataKey="elapsedTimeCPU"
-              stroke="#8884d8"
+              stroke="#F4D03F"
               activeDot={{ r: 8 }}
             />
             <Line
               type="monotone"
-              dataKey="elapsedTimeCPUMultiThread"
-              stroke="#92ca9d"
+              dataKey="elapsedTimeCPUMultiThred"
+              stroke="#E74C3C"
               activeDot={{ r: 7 }}
             />
             <Line
               type="monotone"
               dataKey="elapsedTimeGPU"
-              stroke="#82ca9d"
-              activeDot={{ r: 7 }}
+              stroke="#28B463"
+              activeDot={{ r: 6 }}
             />
           </LineChart>
         </ResponsiveContainer>
