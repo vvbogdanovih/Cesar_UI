@@ -3,19 +3,30 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import api from "../../ApiAdres";
+
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [Username, setUsername] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post("/api/login", { username, password });
-      // Дійшовши до цього пункту, логін успішний
-      console.log("Успішний логін:", response.data);
-    } catch (error) {
-      setError("Помилка під час реєстоації: ");
+  const handleLogin = async (event: any) => {
+    event.preventDefault();
+    if(Password === password2){
+      try {
+        const response = await axios.post(`${api}/api/Authenticate/register`, { Username, Email, Password });
+        // Дійшовши до цього пункту, логін успішний
+        console.log("Успішний логін:", response.data);
+      } catch (error) {
+        setError("Помилка під час реєстоації:\n" + error);
+      }
     }
+    else{
+      alert("Паролі не збігаються");
+    }
+    
   };
 
   return (
@@ -23,13 +34,13 @@ const Register = () => {
       <h2>Register</h2>
       <div>
         {error && <div className="error">{error}</div>}
-        <form className="form-page" onSubmit={handleLogin}>
+        <form className="form-page" onSubmit={(e) => handleLogin(e)}>
           <div>
             <input
               className="input-page"
               type="text"
               placeholder="Name"
-              value={username}
+              value={Username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
@@ -38,8 +49,8 @@ const Register = () => {
               className="input-page"
               type="text"
               placeholder="Email"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={Email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -47,8 +58,8 @@ const Register = () => {
               className="input-page"
               type="password1"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={Password}
+              onChange={(e) => setPassword1(e.target.value)}
             />
           </div>
           <div>
@@ -56,8 +67,8 @@ const Register = () => {
               className="input-page"
               type="password2"
               placeholder="Confirm Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
             />
           </div>
           <button type="submit">Register</button>

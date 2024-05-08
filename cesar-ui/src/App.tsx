@@ -4,6 +4,7 @@ import Register from "./Components/Register/Register";
 import Main from "./Components/Main/Main";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Admin from "./Components/Admin/Admin";
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
               </div>
             }
             path="/main"
+          />
+          <Route
+            element={
+              <div className="App-clear">
+                <Admin />
+              </div>
+            }
+            path="/admin"
           />
         </Routes>
       </BrowserRouter>

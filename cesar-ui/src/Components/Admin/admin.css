@@ -1,0 +1,84 @@
+.admin{
+    background-color: #313338;
+    height: 100vh;
+}
+.input{
+    font-size: 20px;
+    align-items: center;
+}
+.td-action{
+    width: 400px;
+}
+.td-guid{
+    width: 400px;
+}
+.td-adres{
+    width: auto;
+}
+.td-cpu-gpu{
+    width: 400px;
+}
+.button {
+  font-size: 17px;
+  margin-top: 0;
+  margin-right: 2%;
+  height: 50px;
+  width: 180px;
+
+  text-decoration: none;
+  display: inline-block;
+  color: white;
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-image: linear-gradient(
+    to right,
+    #ff436c 0%,
+    #4830f0 51%,
+    #97cf73 100%
+  );
+  background-size: 200% auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
+}
+.button:hover {
+  background-position: right center;
+}
+
+.center-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.h2 {
+  color: white;
+  font-family: "Montserrat", sans-serif;
+}
+
+table {
+    font-size: 20px;
+    background-color: white;
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid black;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  text-align: left;
+}
+
+th {font-size: 20px;
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

@@ -10,7 +10,7 @@ const Header = () => {
   };
   return (
     <div className="header">
-      <h1 className="header-text">Cesar Banchmark</h1>
+      <h1 className="header-text">Cesar Benchmark</h1>
       <button className="header-log-out-buuton" onClick={LogOut}>
         Log Out
       </button>

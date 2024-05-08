@@ -14,7 +14,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-
 interface GPURote {
   adres: string;
   gpu: string;
@@ -32,6 +31,8 @@ interface BenchmarkResult {
 const Body = () => {
   // BenchmarkResult
   const [benchmarkResult, setBenchmarkResult] = useState<BenchmarkResult[]>([]);
+  const [loading, setLoading] = useState(false);
+
   // Routes
   const [cpuRoutes, setCPURoutes] = useState<CPURote[]>([]);
   const [gpuRoutes, setGPURoutes] = useState<GPURote[]>([]);
@@ -49,13 +50,23 @@ const Body = () => {
     const fetchData = async () => {
       try {
         const cpuResponse = await axios.get<CPURote[]>(
-          `${api}/Route/GetCPURoutes`
+          `${api}/Route/GetCPURoutes`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`, // Вкажіть тип вмісту
+            },
+          }
         );
         setCPURoutes(cpuResponse.data);
         setCPURoute(cpuResponse.data[0].adres);
         console.log(cpuRoute);
         const gpuResponse = await axios.get<GPURote[]>(
-          `${api}/Route/GetGPURoutes`
+          `${api}/Route/GetGPURoutes`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`, // Вкажіть тип вмісту
+            },
+          }
         );
         setGPURoutes(gpuResponse.data);
         setGPURoute(gpuResponse.data[0].adres);
@@ -69,40 +80,64 @@ const Body = () => {
   }, []);
 
   const handleButtoun = async () => {
-    
+    setLoading(true);
     switch (testMethod) {
-        case "option1":
-            const response1 = await axios.post(
-                `${api}/Benchmark/Sum`,
-                { StartSize, EndSize, Step, gpuRoute, cpuRoute},
-                {
-                    headers: {
-                        'Content-Type': 'application/json', // Вкажіть тип вмісту
-                    },
-                    timeout: 9000000
-                },
-              );
-              console.log(response1.data);
-              setBenchmarkResult(response1.data);
-          break;
-        case "option2":
-            const response2 = await axios.post(
-                `${api}/Benchmark/Mult`,
-                { StartSize, EndSize, Step, gpuRoute, cpuRoute}
-              );
-              setBenchmarkResult(response2.data); 
-          break;
-        case "option3":
-            const response3 = await axios.post(
-                `${api}/Benchmark/Sing`,
-                { StartSize, EndSize, Step, gpuRoute, cpuRoute}
-              );
-              setBenchmarkResult(response3.data); 
-          break;
-        default:
-            alert(testMethod);
+      case "option1":
+        const response1 = await axios.post(
+          `${api}/Benchmark/Sum`,
+          { StartSize, EndSize, Step, gpuRoute, cpuRoute },
+          {
+            headers: {
+              "Content-Type": "application/json", // Вкажіть тип вмісту
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+            timeout: 9000000,
+          }
+        );
+        console.log(response1.data);
+        setBenchmarkResult(response1.data);
+        break;
+      case "option2":
+        const response2 = await axios.post(
+          `${api}/Benchmark/Mult`,
+          {
+            StartSize,
+            EndSize,
+            Step,
+            gpuRoute,
+            cpuRoute,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`, // Вкажіть тип вмісту
+            },
+          }
+        );
+        setBenchmarkResult(response2.data);
+        break;
+      case "option3":
+        const response3 = await axios.post(
+          `${api}/Benchmark/Sing`,
+          {
+            StartSize,
+            EndSize,
+            Step,
+            gpuRoute,
+            cpuRoute,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json", // Вкажіть тип вмісту
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          }
+        );
+        setBenchmarkResult(response3.data);
+        break;
+      default:
+        alert(testMethod);
     }
-          
+    setLoading(false);
   };
 
   return (
@@ -117,11 +152,12 @@ const Body = () => {
               name="optionsCPU"
               onChange={(e) => {
                 const foundRoute = cpuRoutes.find(
-                  (route) => route.cpu=== e.target.value
+                  (route) => route.cpu === e.target.value
                 );
                 const adres = foundRoute ? foundRoute.adres : "none";
                 setCPURoute(adres);
               }}
+              disabled={loading}
             >
               {cpuRoutes.map((options: CPURote, index) => (
                 <option key={index}>{options.cpu}</option>
@@ -142,6 +178,7 @@ const Body = () => {
                 const adres = foundRoute ? foundRoute.adres : "none";
                 setGPURoute(adres);
               }}
+              disabled={loading}
             >
               {gpuRoutes.map((options: GPURote, index) => (
                 <option key={index}>{options.gpu}</option>
@@ -156,6 +193,7 @@ const Body = () => {
               id="test-methods"
               name="optionsTestMethod"
               onChange={(e) => setTestMethod(e.target.value)}
+              disabled={loading}
             >
               <option value="option1">Addition</option>
               <option value="option2">Multiplication</option>
@@ -170,6 +208,7 @@ const Body = () => {
               type="text"
               value={StartSize}
               onChange={(e) => setMatrixAStarSize(Number(e.target.value))}
+              disabled={loading}
             />
           </div>
 
@@ -180,6 +219,7 @@ const Body = () => {
               type="text"
               value={EndSize}
               onChange={(e) => setMatrixAEndSize(Number(e.target.value))}
+              disabled={loading}
             />
           </div>
 
@@ -190,10 +230,15 @@ const Body = () => {
               type="text"
               value={Step}
               onChange={(e) => setTestStep(Number(e.target.value))}
+              disabled={loading}
             />
           </div>
 
-          <button className="test-button" onClick={handleButtoun}>
+          <button
+            className="test-button"
+            onClick={handleButtoun}
+            disabled={loading}
+          >
             Test
           </button>
         </div>
@@ -203,9 +248,9 @@ const Body = () => {
           <LineChart width={500} height={300} data={benchmarkResult}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="size" padding={{ left: 30, right: 30 }} />
-            <YAxis />
+            <YAxis label={{ value: 'Time in milliseconds', angle: 90, position: 'insideLeft' }}/>
             <Tooltip />
-            <Legend values="elapsedTimeCPU"/>
+            <Legend values="elapsedTimeCPU" />
             <Line
               type="monotone"
               dataKey="elapsedTimeCPU"
