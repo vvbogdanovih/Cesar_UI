@@ -207,7 +207,10 @@ const Body = () => {
               className="input-style"
               type="text"
               value={StartSize}
-              onChange={(e) => setMatrixAStarSize(Number(e.target.value))}
+              onChange={(e) => {
+                if (Number(e.target.value) >= 2 && Number(e.target.value) < EndSize)
+                  setMatrixAStarSize(Number(e.target.value));
+              }}
               disabled={loading}
             />
           </div>
@@ -218,7 +221,10 @@ const Body = () => {
               className="input-style"
               type="text"
               value={EndSize}
-              onChange={(e) => setMatrixAEndSize(Number(e.target.value))}
+              onChange={(e) => {
+                if (Number(e.target.value) > Number(StartSize))
+                  setMatrixAEndSize(Number(e.target.value));
+              }}
               disabled={loading}
             />
           </div>
@@ -229,7 +235,10 @@ const Body = () => {
               className="input-style"
               type="text"
               value={Step}
-              onChange={(e) => setTestStep(Number(e.target.value))}
+              onChange={(e) => {
+                if (Number(e.target.value) <= EndSize)
+                  setTestStep(Number(e.target.value));
+              }}
               disabled={loading}
             />
           </div>
@@ -248,7 +257,13 @@ const Body = () => {
           <LineChart width={500} height={300} data={benchmarkResult}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="size" padding={{ left: 30, right: 30 }} />
-            <YAxis label={{ value: 'Time in milliseconds', angle: 90, position: 'insideLeft' }}/>
+            <YAxis
+              label={{
+                value: "Time in milliseconds",
+                angle: 90,
+                position: "insideLeft",
+              }}
+            />
             <Tooltip />
             <Legend values="elapsedTimeCPU" />
             <Line
